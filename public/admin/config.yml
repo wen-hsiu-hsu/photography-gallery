@@ -1,6 +1,6 @@
 backend:
     name: github
-    repo: kevinshu1995/photography-gallery
+    repo: wen-hsiu-hsu/photography-gallery
     base_url: https://photograph-oauth.hsiu.soy
     skip_ci: true
 

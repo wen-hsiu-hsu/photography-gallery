@@ -27,7 +27,7 @@ const sites = [
     {
         label: "",
         icon: "simple-icons:github",
-        link: "https://github.com/kevinshu1995",
+        link: "https://github.com/wen-hsiu-hsu",
     },
     {
         label: "Website",
