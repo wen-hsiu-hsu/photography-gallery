@@ -71,11 +71,11 @@ const formattedGallery = computed(() => {
                     label: camera,
                 },
                 {
-                    icon: "carbon:aperture",
+                    icon: "carbon:timer",
                     label: item.ExposureTime,
                 },
                 {
-                    icon: "carbon:timer",
+                    icon: "carbon:aperture",
                     label: item.FNumber,
                 },
                 {
