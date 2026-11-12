@@ -33,6 +33,13 @@ export default defineNuxtConfig({
 
     css: ["~/assets/css/index.css"],
 
+    runtimeConfig: {
+        public: {
+            // 嵌入的地球地圖；本機驗證用 NUXT_PUBLIC_GLOBE_MAP_URL=http://localhost:3940/
+            globeMapUrl: "https://map.hsiu.soy/",
+        },
+    },
+
     colorMode: {
         preference: "light",
     },
