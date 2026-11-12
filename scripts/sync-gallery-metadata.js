@@ -159,6 +159,7 @@ async function syncGalleryMetadata() {
             tags: [],
             location: "",
             customLocation: "",
+            coordinates: "",
             published: true,
             weight: 0,
             ...exif,

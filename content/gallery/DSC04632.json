@@ -31,5 +31,6 @@
   "FocalLength": "55 mm",
   "fileId": "dsc04632-bSszODAS",
   "name": "DSC04632",
-  "DateTime": "2024-09-28 00:34:45"
+  "DateTime": "2024-09-28 00:34:45",
+  "coordinates": "{\"type\":\"Point\",\"coordinates\":[139.703,35.694]}"
 }

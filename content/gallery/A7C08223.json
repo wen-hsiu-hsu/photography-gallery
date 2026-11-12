@@ -8,7 +8,7 @@
     "animal"
   ],
   "location": "",
-  "customLocation": "Daqiu, Matsu",
+  "customLocation": "Daqiu Island, Matsu",
   "published": true,
   "weight": 0,
   "editedTime": "",
@@ -30,5 +30,6 @@
   "FocalLength": "55 mm",
   "fileId": "a7c08223-elD1NBC9",
   "name": "A7C08223",
-  "DateTime": "2025-10-21 22:41:51"
+  "DateTime": "2025-10-21 22:41:51",
+  "coordinates": "{\"type\":\"Point\",\"coordinates\":[119.997,26.317]}"
 }

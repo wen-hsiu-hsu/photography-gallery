@@ -30,5 +30,6 @@
   "FocalLength": "55 mm",
   "fileId": "a7c05910-ib_P3XYV",
   "name": "A7C05910",
-  "DateTime": "2024-11-08 22:30:09"
+  "DateTime": "2024-11-08 22:30:09",
+  "coordinates": "{\"type\":\"Point\",\"coordinates\":[121.526,25.093]}"
 }

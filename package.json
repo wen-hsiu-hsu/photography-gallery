@@ -28,8 +28,6 @@
         "exifreader": "^4.32.0",
         "nanoid": "^5.1.6",
         "nuxt": "^4.2.0",
-        "photoswipe": "^5.4.4",
-        "photoswipe-dynamic-caption-plugin": "^1.2.7",
         "typescript": "^5.9.3",
         "vue": "^3.5.22",
         "vue-router": "^4.6.3"
@@ -44,4 +42,3 @@
     },
     "packageManager": "pnpm@10.19.0"
 }
-
