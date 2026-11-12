@@ -7,10 +7,10 @@
         <!-- contact 與 footer 同一個 snap 區塊，對齊文件底（snap-end）：吸附點等於最大捲動值，不受網址列伸縮影響；lvh 與地球的 100vh 一致 -->
         <section class="snap-end min-h-lvh flex flex-col">
             <UContainer class="flex-1 flex w-full">
-                <div id="contact" class="flex-1 flex items-center justify-center py-24">
+                <div id="contact" class="flex-1 flex items-center justify-center py-0 md:py-24">
                     <div class="flex flex-col md:flex-row justify-center text-center gap-8 max-w-[600px]">
                         <BaseScrollAnimate :configs="{ opacity: { from: 0, to: 1 }, filter: { from: 'blur(10px)', to: 'blur(0px)' } }">
-                            <NuxtImg class="max-w-[250px]" src="/author.jpg" alt="" />
+                            <NuxtImg class="max-w-[200px] md:max-w-[250px]" src="/author.jpg" alt="" />
                         </BaseScrollAnimate>
                         <BaseScrollAnimate class="space-y-5" :configs="{ opacity: { from: 0, to: 1 }, filter: { from: 'blur(10px)', to: 'blur(0px)' } }">
                             <div class="text-left space-y-3">

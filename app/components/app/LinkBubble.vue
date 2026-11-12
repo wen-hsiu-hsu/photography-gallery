@@ -1,5 +1,5 @@
 <template>
-    <div :class="['fixed inset-x-0 bottom-0 pb-6 px-8 flex items-center justify-center md:justify-end pointer-events-none', !!refContainer || 'opacity-0']" ref="container">
+    <div :class="['max-md:invisible fixed inset-x-0 bottom-0 pb-6 px-8 flex items-center justify-center md:justify-end pointer-events-none', !!refContainer || 'opacity-0']" ref="container">
         <!-- 地球區塊佔滿視窗時淡出（opacity 不放在 container：anime 會寫 inline opacity） -->
         <div :class="['rounded-full backdrop-blur bg-white/70 border border-gray-100 shadow-xl/10 py-1 px-4 flex items-center transition-all duration-300 hover:scale-105', globeFills ? 'opacity-0 pointer-events-none' : 'pointer-events-auto']">
             <div v-for="link in sites" :key="link.link" class="inline-block overflow-hidden" ref="siteLinks">
