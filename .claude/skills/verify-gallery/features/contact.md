@@ -11,7 +11,7 @@ At the bottom of `/`, the `#contact` section shows the author photo, a "Hey!" bi
 ## How to get to it (user POV)
 
 - Scroll to the bottom, or click "reach out" in the header.
-- The link bubble shows on every scroll position once the intro ends.
+- The link bubble shows on the header and on contact once the intro ends. It fades out (opacity 0, no clicks) while the globe section fills the viewport.
 
 ## Driving it with chrome-devtools
 
@@ -21,7 +21,7 @@ Preconditions:
 
 - **About.** Scroll `#contact` into view and wait 1.5 s. Its `innerText` contains `Hey!`, and its `img` has `naturalWidth` > 0.
 - **Contact links.** Collect the `href` values of the `a` elements inside `#contact`. They include `https://www.instagram.com/kevinshu` and a `mailto:` link.
-- **Bubble.** Wait 3 s after the overlay hides. The anchors with `href*="github.com/wen-hsiu-hsu"`, `instagram.com/kevinshu/` and `hsiu.soy` each have `target="_blank"`, and their wrapper's computed `opacity` is `1`.
+- **Bubble.** Wait 3 s after the overlay hides, with the header in view. The anchors with `href*="github.com/wen-hsiu-hsu"`, `instagram.com/kevinshu/` and `hsiu.soy` each have `target="_blank"`, and their wrapper's computed `opacity` is `1`.
 - **Proof.** Run `take_screenshot` on `.verify/evidence/contact/contact.png` with `#contact` in view.
 
 ## Gotchas

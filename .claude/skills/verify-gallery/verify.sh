@@ -15,9 +15,9 @@ doctor() {
   local p="$owner"; while [[ "$p" -gt 1 && "$p" != "$pid" ]]; do p="$(ps -o ppid= -p "$p" | tr -d ' ')"; done
   [[ "$p" == "$pid" ]] || { echo "FAIL: port $PORT owned by pid $owner, not our server $pid"; return 1; }
   local html; html="$(curl -fsS "http://localhost:$PORT/")" || { echo "FAIL: GET / failed"; return 1; }
-  local n; n="$(grep -o 'id="gallery-[^"]*"' <<<"$html" | wc -l | tr -d ' ')"
-  [[ "$n" -gt 0 ]] || { echo "FAIL: SSR html has no gallery items"; return 1; }
-  echo "OK: http://localhost:$PORT pid=$pid gallery_items=$n rev=$(git -C "$ROOT" rev-parse --short HEAD)$(git -C "$ROOT" diff --quiet || echo '+dirty')"
+  local n; n="$(grep -o 'class="th"' <<<"$html" | wc -l | tr -d ' ')"
+  [[ "$n" -gt 0 ]] || { echo 'FAIL: SSR html has no globe thumbnails (class="th")'; return 1; }
+  echo "OK: http://localhost:$PORT pid=$pid globe_thumbs=$n rev=$(git -C "$ROOT" rev-parse --short HEAD)$(git -C "$ROOT" diff --quiet || echo '+dirty')"
 }
 
 case "${1:-}" in

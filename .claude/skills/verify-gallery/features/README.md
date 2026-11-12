@@ -16,6 +16,5 @@ Keep implementation details out. Name user paths, stable handles, required state
 ## Features
 
 - [Intro: loading overlay and header](./intro.md): loading animation, `PHOTOGRAPHY` heading, text slider, "reach out" link.
-- [Gallery grid](./gallery.md): masonry list of published photos with location labels.
-- [Lightbox](./lightbox.md): click a photo to open it full-size with a caption and EXIF details; close it. **Verified end to end 2026-11-10.**
+- [Globe photo section](./globe.md): scroll-driven photo switching, thumbnail strip, EXIF info, embedded globe map, snap.
 - [Contact and links](./contact.md): about section, Instagram/Email links, floating link bubble.
