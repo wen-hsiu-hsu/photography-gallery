@@ -4,8 +4,8 @@
             <HomeHeader class="snap-start" />
         </UContainer>
         <GlobeGallery />
-        <!-- contact 與 footer 同一個 snap 區塊，至少滿版、footer 貼底；否則 snap 停在 contact 頂端時 footer 被切掉 -->
-        <section class="snap-start min-h-svh flex flex-col">
+        <!-- contact 與 footer 同一個 snap 區塊，對齊文件底（snap-end）：吸附點等於最大捲動值，不受網址列伸縮影響；lvh 與地球的 100vh 一致 -->
+        <section class="snap-end min-h-lvh flex flex-col">
             <UContainer class="flex-1 flex w-full">
                 <div id="contact" class="flex-1 flex items-center justify-center py-24">
                     <div class="flex flex-col md:flex-row justify-center text-center gap-8 max-w-[600px]">

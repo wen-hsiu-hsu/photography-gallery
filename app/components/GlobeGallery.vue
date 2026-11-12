@@ -228,7 +228,7 @@ onMounted(() => {
     const onJump = (e: Event) => {
         const to = (e.target as Element).closest<HTMLElement>("button")?.dataset.to;
         const el = to === "prev" ? rootEl.previousElementSibling : to === "next" ? rootEl.nextElementSibling : null;
-        el?.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+        el?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: to === "next" ? "end" : "start" }); // contact 是 snap-end
     };
     jumpEl.addEventListener("click", onJump);
 
@@ -280,7 +280,7 @@ onMounted(() => {
 
 <style>
 /* 定稿 prototype 的 CSS：選擇器加 .globe 前綴，:root token 改掛 .globe。 */
-html.globe-snap { scroll-snap-type: y mandatory; }
+html.globe-snap { scroll-snap-type: y mandatory; overscroll-behavior-y: none; } /* 底部過捲回彈會讓 mandatory 再吸附一次 */
 .globe {
     --bg: #fff; --fg: #1d1d1f; --muted: #8d8d90; --faint: #b9b9bb; --line: rgba(29,29,31,.16); --accent: #e8590c;
     --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
