@@ -56,7 +56,6 @@ const { data } = await useAsyncData("globe-gallery", async () => {
     return toGlobeData(
         rows,
         (path, kind) => (kind === "main" ? img(path, { width: 1800, height: 1800, fit: "inside", format: "webp" }) : img(path, { width: 120, height: 120, fit: "cover", format: "webp" })),
-        PLACES,
     );
 });
 // toGlobeData 遇到壞資料會 throw，所以這裡沒有值代表 build 失敗，不是執行期狀態
@@ -261,7 +260,7 @@ onMounted(() => {
 /* 原型 v8 的 CSS 逐行移植：選擇器加 .globe 前綴，:root token 改掛 .globe，#switcher 刪除。 */
 html.globe-snap { scroll-snap-type: y mandatory; }
 .globe {
-    --bg: #f4f4f2; --fg: #1d1d1f; --muted: #8d8d90; --faint: #b9b9bb; --line: rgba(29,29,31,.16); --accent: #e8590c;
+    --bg: #fff; --fg: #1d1d1f; --muted: #8d8d90; --faint: #b9b9bb; --line: rgba(29,29,31,.16); --accent: #e8590c;
     --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
     --ease: cubic-bezier(.65,0,.35,1); --ease-out: cubic-bezier(.2,.7,.2,1);
     --th: 60px; /* 幾何（--main-*、--strip-*、--info-*）由 globeLayout 逐模式寫成 px */
