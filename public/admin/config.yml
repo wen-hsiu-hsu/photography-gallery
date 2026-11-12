@@ -25,6 +25,7 @@ collections:
           - { label: "標籤", name: "tags", widget: "list", allow_add: true, allow_remove: true, required: false }
           - { label: "位置", name: "location", widget: "string", required: false }
           - { label: "自訂位置", name: "customLocation", widget: "string", required: false }
+          - { label: "地圖座標", name: "coordinates", widget: "map", type: "Point", decimals: 4, center: [121, 24], zoom: 6, required: false, hint: "首頁地球的光標位置；沒點的照片不會出現在地球上" }
           - { label: "發佈", name: "published", widget: "boolean", default: true, required: true }
           - { label: "權重", name: "weight", widget: "number", value_type: "int", required: false, default: 0 }
           - { label: "編輯時間", name: "editedTime", widget: "string", required: false, readonly: true }

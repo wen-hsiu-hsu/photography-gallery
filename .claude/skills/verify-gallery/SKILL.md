@@ -5,7 +5,7 @@ description: Drive the photography-gallery Nuxt site (single-page web UI at /) i
 
 # Verify photography-gallery
 
-The product is one statically generated page (`app/pages/index.vue`). Users scroll it; the globe section turns scroll into photo switching, and thumbnails can be clicked. There is no auth, no backend writes, and no persistent data dir. Gallery data comes from `content/gallery/*.json` (only `published: true`), images from `public/img/`, locations from `app/utils/places.ts`. The globe is an iframe of the map app: set `NUXT_PUBLIC_GLOBE_MAP_URL` (default `https://map.hsiu.soy/`; local map-proto: `http://localhost:3940/`).
+The product is one statically generated page (`app/pages/index.vue`). Users scroll it; the globe section turns scroll into photo switching, and thumbnails can be clicked. There is no auth, no backend writes, and no persistent data dir. Gallery data comes from `content/gallery/*.json` (only `published: true`), images from `public/img/`, locations from each photo's `coordinates` (a GeoJSON Point set with the CMS map field). The globe is an iframe of the map app: set `NUXT_PUBLIC_GLOBE_MAP_URL` (default `https://map.hsiu.soy/`; local map build: serve its `out/`).
 
 Harness: `.claude/skills/verify-gallery/verify.sh` (launch/doctor/stop) + the `chrome-devtools` MCP tools (`new_page`, `evaluate_script`, `press_key`, `take_screenshot`, `take_snapshot`). Load them with one ToolSearch `select:` call.
 

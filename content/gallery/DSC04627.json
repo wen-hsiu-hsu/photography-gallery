@@ -31,5 +31,6 @@
   "FocalLength": "55 mm",
   "fileId": "dsc04627-15UWByna",
   "name": "DSC04627",
-  "DateTime": "2024-09-28 00:34:41"
+  "DateTime": "2024-09-28 00:34:41",
+  "coordinates": "{\"type\":\"Point\",\"coordinates\":[139.703,35.694]}"
 }

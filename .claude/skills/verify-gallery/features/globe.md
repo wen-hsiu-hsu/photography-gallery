@@ -1,6 +1,6 @@
 # Globe photo section
 
-Below the header, a full-viewport section shows one photo at a time next to a rolling thumbnail strip, an info block (number, place, date, coordinates, EXIF) and a globe cut by the screen edge with the photo's place lit. Scrolling switches photos; clicking a thumbnail glides to it. Photos come from published `content/gallery/*.json` (newest first), placed by `customLocation || location` via `app/utils/places.ts`.
+Below the header, a full-viewport section shows one photo at a time next to a rolling thumbnail strip, an info block (number, place, date, coordinates, EXIF) and a globe cut by the screen edge with the photo's place lit. Scrolling switches photos; clicking a thumbnail glides to it. Photos come from published `content/gallery/*.json` (newest first), placed by each photo's `coordinates` (CMS map field, GeoJSON Point) and named by `customLocation || location`; photos without coordinates are left off.
 
 ## Sub-features
 

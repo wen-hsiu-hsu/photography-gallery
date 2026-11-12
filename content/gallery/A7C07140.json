@@ -31,5 +31,6 @@
   "FocalLength": "55 mm",
   "fileId": "a7c07140-WH0cEBav",
   "name": "A7C07140",
-  "DateTime": "2025-06-05 23:29:56"
+  "DateTime": "2025-06-05 23:29:56",
+  "coordinates": "{\"type\":\"Point\",\"coordinates\":[139.107,35.233]}"
 }

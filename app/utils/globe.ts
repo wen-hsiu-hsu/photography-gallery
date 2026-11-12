@@ -7,7 +7,7 @@ import type { Collections } from "@nuxt/content";
 export const EXIF_LABELS = ["相機", "鏡頭", "焦距", "光圈", "快門", "ISO"] as const;
 
 export interface Place {
-    id: string; // 地點字串，同時是顯示名稱
+    id: string; // 地點名稱（customLocation || location），沒有名稱時用座標字串
     lat: number;
     lng: number;
     coord: string; // "25.055°N 121.607°E"
@@ -33,28 +33,36 @@ const ratioLabel = (w: number, h: number) => {
 };
 const fmtCoord = (lat: number, lng: number) => `${Math.abs(lat).toFixed(3)}°${lat >= 0 ? "N" : "S"} ${Math.abs(lng).toFixed(3)}°${lng >= 0 ? "E" : "W"}`;
 
+/** CMS map 欄位的 GeoJSON Point 字串（[lng, lat]）→ [lat, lng]；空字串回傳 null，格式壞掉就 throw。 */
+export function parsePoint(raw: string | undefined, file: string): [number, number] | null {
+    if (!raw) return null;
+    let g: any;
+    try {
+        g = JSON.parse(raw);
+    } catch {
+        throw new Error(`[globe] ${file}.json: coordinates 不是 JSON：${raw}`);
+    }
+    const [lng, lat] = g?.type === "Point" && Array.isArray(g.coordinates) ? g.coordinates : [];
+    if (!(Math.abs(lat) <= 90 && Math.abs(lng) <= 180)) throw new Error(`[globe] ${file}.json: coordinates 不是合法的 GeoJSON Point：${raw}`);
+    return [lat, lng];
+}
+
 /**
- * content rows → 地球需要的資料。地點取 `customLocation || location`，精確比對 table。
- * - 兩欄都空：略過並 console.warn（剛同步進來、還沒放上地圖的照片不該讓部署壞掉）。
- * - 非空但不在 table：throw，nuxt generate 失敗。
+ * content rows → 地球需要的資料。座標來自 CMS 的 coordinates（地圖欄位），名稱取 `customLocation || location`。
+ * 同名的照片共用一個光標，座標取第一張。
+ * - 沒有 coordinates：略過並 console.warn（剛同步進來、還沒在 CMS 點地圖的照片不該讓部署壞掉）。
  */
-export function toGlobeData(
-    rows: Collections["gallery"][],
-    url: (path: string, kind: "main" | "thumb") => string,
-    table: Record<string, [number, number]>,
-): { photos: GlobePhoto[]; places: Place[] } {
+export function toGlobeData(rows: Collections["gallery"][], url: (path: string, kind: "main" | "thumb") => string): { photos: GlobePhoto[]; places: Place[] } {
     const photos: GlobePhoto[] = [];
     const places = new Map<string, Place>();
     for (const row of rows) {
-        const name = row.customLocation || row.location;
-        if (!name) {
-            console.warn(`[globe] ${row.name}: 沒有地點，不放上首頁`);
+        const ll = parsePoint(row.coordinates, row.name);
+        if (!ll) {
+            console.warn(`[globe] ${row.name}: 沒有 coordinates，不放上首頁`);
             continue;
         }
-        const ll = table[name];
-        if (!ll) throw new Error(`[globe] ${row.name}.json: "${name}" 不在 app/utils/places.ts`);
         const [lat, lng] = ll;
-        if (!(Math.abs(lat) <= 90 && Math.abs(lng) <= 180)) throw new Error(`[globe] "${name}" 座標不合法`);
+        const name = row.customLocation || row.location || fmtCoord(lat, lng);
         if (!places.has(name)) places.set(name, { id: name, lat, lng, coord: fmtCoord(lat, lng) });
         const w = Number(row.PixelXDimension), h = Number(row.PixelYDimension);
         const v = (x: unknown, suffix = "") => (x === undefined || x === null || x === "" ? "—" : `${x}${suffix}`);
@@ -193,5 +201,5 @@ export function parseFromMap(e: { source: unknown; origin: string; data: any }, 
 
 /** iframe src。zoom 是佔位：地球在 READY 前透明，READY 後會跳到真正的視角。 */
 export function mapSrc(base: string): string {
-    return `${base}?attribution=off&labels=off&bg=f4f4f2&center=121,26&zoom=2`;
+    return `${base}?attribution=off&labels=off&bg=ffffff&center=121,26&zoom=2`;
 }

@@ -15,6 +15,8 @@ export default defineContentConfig({
                 tags: z.array(z.string()),
                 location: z.string(),
                 customLocation: z.string(),
+                // CMS 地圖欄位：GeoJSON Point 字串 {"type":"Point","coordinates":[lng,lat]}，空字串代表還沒標
+                coordinates: z.string().optional(),
                 published: z.boolean(),
                 weight: z.number(),
                 editedTime: z.string(),

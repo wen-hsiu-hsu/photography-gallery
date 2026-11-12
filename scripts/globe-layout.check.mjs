@@ -1,7 +1,7 @@
 // node --experimental-strip-types scripts/globe-layout.check.mjs
 // golden：原型 index.html (v7, size l / cut 40) 在三種視窗下 layout() 寫出的 CSS 變數、globe 位置與 offset（2026-11-12 於 chrome-devtools 擷取）。
 import assert from "node:assert/strict";
-import { cssVars, globeLayout, zoomAt } from "../app/utils/globe.ts";
+import { cssVars, globeLayout, parsePoint, zoomAt } from "../app/utils/globe.ts";
 
 const golden = {
     "1440x900": {
@@ -44,3 +44,11 @@ const z0 = zoomAt(0, { R: 522, offset: [0, 0] });
 near(z0, Math.log2((2 * Math.PI * 522) / 512) + 0.47, "zoomAt(0)");
 assert.ok(zoomAt(35, { R: 522, offset: [0, 0] }) < z0);
 console.log("ok zoomAt");
+
+// parsePoint：CMS 存 [lng, lat]，回傳 [lat, lng]；空值略過，壞格式 throw
+assert.deepEqual(parsePoint('{"type":"Point","coordinates":[121.607,25.055]}', "x"), [25.055, 121.607]);
+assert.equal(parsePoint("", "x"), null);
+assert.equal(parsePoint(undefined, "x"), null);
+assert.throws(() => parsePoint("25.0, 121.6", "x"));
+assert.throws(() => parsePoint('{"type":"Point","coordinates":[25.055,121.607]}', "x")); // 經緯度對調時緯度超過 90
+console.log("ok parsePoint");

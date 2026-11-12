@@ -30,5 +30,6 @@
   "FocalLength": "55 mm",
   "fileId": "a7c04800-QMZyTPlT",
   "name": "A7C04800",
-  "DateTime": "2024-10-11 23:49:29"
+  "DateTime": "2024-10-11 23:49:29",
+  "coordinates": "{\"type\":\"Point\",\"coordinates\":[121.607,25.055]}"
 }

@@ -31,5 +31,6 @@
   "FocalLength": "60 mm",
   "fileId": "dsc04616-AfPaaOJ_",
   "name": "DSC04616",
-  "DateTime": "2024-09-28 00:34:11"
+  "DateTime": "2024-09-28 00:34:11",
+  "coordinates": "{\"type\":\"Point\",\"coordinates\":[139.703,35.694]}"
 }

@@ -31,5 +31,6 @@
   "FocalLength": "55 mm",
   "fileId": "a7c07773-H_ix4eaN",
   "name": "A7C07773",
-  "DateTime": "2025-06-29 23:22:07"
+  "DateTime": "2025-06-29 23:22:07",
+  "coordinates": "{\"type\":\"Point\",\"coordinates\":[120.227,22.999]}"
 }
