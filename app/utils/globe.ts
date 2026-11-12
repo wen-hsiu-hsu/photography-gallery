@@ -175,7 +175,7 @@ export function linkStyle(g: Geometry): { marginLeft: string; width: string } {
 export type ToMap =
     | { type: "SET_MARKERS"; markers: { id: string; lat: number; lng: number; color: string }[] }
     | { type: "SET_OPTIONS"; interactive: false; onMarkerClick: "event-only" }
-    | { type: "HIGHLIGHT"; id: string; ids: string[] }
+    | { type: "HIGHLIGHT"; id: string }
     | { type: "EASE_TO"; lat: number; lng: number; zoom: number; offset: [number, number]; duration: number };
 
 export type FromMap = { type: "READY" } | { type: "GLOBE_POSITION"; x: number; y: number; r: number };
@@ -188,8 +188,6 @@ export function parseFromMap(e: { source: unknown; origin: string; data: any }, 
     const d = e.data;
     if (d?.type === "READY") return { type: "READY" };
     if (d?.type === "GLOBE_POSITION" && finite(d.x, d.y, d.r)) return { type: "GLOBE_POSITION", x: d.x, y: d.y, r: d.r };
-    // shortcut: remove once map PR lands（map-proto 還是送 MARKER_POSITIONS {globe:{x,y,r}}）
-    if (d?.type === "MARKER_POSITIONS" && finite(d.globe?.x, d.globe?.y, d.globe?.r)) return { type: "GLOBE_POSITION", x: d.globe.x, y: d.globe.y, r: d.globe.r };
     return null;
 }
 

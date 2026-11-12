@@ -203,7 +203,7 @@ onMounted(() => {
         setLink();
         // 預載相鄰兩張，揭開時不會看到半解碼的圖
         for (const j of [i - 1, i + 1]) if (photos[j]) new Image().src = photos[j]!.main;
-        send({ type: "HIGHLIGHT", id: pl.id, ids: [pl.id] });
+        send({ type: "HIGHLIGHT", id: pl.id });
         clearTimeout(easeTimer);
         easeTimer = setTimeout(() => easeGlobe(pl, 1600), 220);
     }
@@ -223,7 +223,7 @@ onMounted(() => {
             send({ type: "SET_MARKERS", markers: places.map(p => ({ id: p.id, lat: p.lat, lng: p.lng, color: "#e8590c" })) });
             send({ type: "SET_OPTIONS", interactive: false, onMarkerClick: "event-only" });
             const pl = placeOf[photos[Math.max(0, active)]!.place]!;
-            send({ type: "HIGHLIGHT", id: pl.id, ids: [pl.id] });
+            send({ type: "HIGHLIGHT", id: pl.id });
             easeGlobe(pl, 0);
             globeEl.classList.add("on");
         }
