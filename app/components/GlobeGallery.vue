@@ -293,6 +293,8 @@ html.globe-snap { scroll-snap-type: y mandatory; overscroll-behavior-y: none; } 
 .globe:not([data-mode]) #stage { visibility: hidden; }
 .globe #track { padding-bottom: calc(100vh - var(--step)); margin-top: -100vh; }
 .globe .snap { height: var(--step); scroll-snap-align: start; }
+/* 從 contact 往上甩時一定先停在最後一張，不會一次滑過好幾張 */
+.globe .snap:last-child { scroll-snap-stop: always; }
 
 .globe #stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
 .globe #globeWrap { position: absolute; inset: 0; pointer-events: none; }
