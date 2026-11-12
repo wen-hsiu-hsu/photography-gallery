@@ -1,6 +1,6 @@
 <template>
-    <!-- svh：手機網址列顯示時 100vh 的底部會被擋住；svh 不隨網址列伸縮，下面地球區塊的捲動位置不會位移 -->
     <header class="min-h-svh flex items-center relative">
+        <!-- svh：手機網址列顯示時 100vh 的底部會被擋住；svh 不隨網址列伸縮，下面地球區塊的捲動位置不會位移 -->
         <div>
             <HeaderHeading class="uppercase text-[18vw] md:text-[9vw] xl:text-[130px] font-black leading-none" :duration="headingDuration">
                 <span class="hidden md:inline">photography</span>
