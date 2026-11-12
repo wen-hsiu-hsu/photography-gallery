@@ -116,7 +116,10 @@ onMounted(() => {
     }
 
     function layout() {
+        const prev = g;
         g = globeLayout(innerWidth, innerHeight);
+        // 手機網址列伸縮只改高度：step 跟著變會讓每張照片的捲動位置整批位移，人沒捲卻換了照片。只在寬度改變時重算
+        if (prev.vw === g.vw) g.step = prev.step;
         rootEl.dataset.mode = g.mode;
         for (const [k, v] of Object.entries(cssVars(g))) rootEl.style.setProperty(k, v);
         stripEl.style.setProperty("--pitch", String(g.pitch));
