@@ -4,7 +4,7 @@ backend:
     base_url: https://photograph-oauth.hsiu.soy
     skip_ci: true
 
-site_url: https://photograph.hsiu.soy
+site_url: https://photography.hsiu.soy
 
 media_folder: public/img
 public_folder: /img

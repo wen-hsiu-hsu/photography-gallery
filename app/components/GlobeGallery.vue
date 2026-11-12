@@ -116,7 +116,10 @@ onMounted(() => {
     }
 
     function layout() {
+        const prev = g;
         g = globeLayout(innerWidth, innerHeight);
+        // 手機網址列伸縮只改高度：step 跟著變會讓每張照片的捲動位置整批位移，人沒捲卻換了照片。只在寬度改變時重算
+        if (prev.vw === g.vw) g.step = prev.step;
         rootEl.dataset.mode = g.mode;
         for (const [k, v] of Object.entries(cssVars(g))) rootEl.style.setProperty(k, v);
         stripEl.style.setProperty("--pitch", String(g.pitch));
@@ -228,7 +231,7 @@ onMounted(() => {
     const onJump = (e: Event) => {
         const to = (e.target as Element).closest<HTMLElement>("button")?.dataset.to;
         const el = to === "prev" ? rootEl.previousElementSibling : to === "next" ? rootEl.nextElementSibling : null;
-        el?.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+        el?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: to === "next" ? "end" : "start" }); // contact 是 snap-end
     };
     jumpEl.addEventListener("click", onJump);
 
@@ -280,7 +283,7 @@ onMounted(() => {
 
 <style>
 /* 定稿 prototype 的 CSS：選擇器加 .globe 前綴，:root token 改掛 .globe。 */
-html.globe-snap { scroll-snap-type: y mandatory; }
+html.globe-snap { scroll-snap-type: y mandatory; overscroll-behavior-y: none; } /* 底部過捲回彈會讓 mandatory 再吸附一次 */
 .globe {
     --bg: #fff; --fg: #1d1d1f; --muted: #8d8d90; --faint: #b9b9bb; --line: rgba(29,29,31,.16); --accent: #e8590c;
     --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
@@ -293,6 +296,8 @@ html.globe-snap { scroll-snap-type: y mandatory; }
 .globe:not([data-mode]) #stage { visibility: hidden; }
 .globe #track { padding-bottom: calc(100vh - var(--step)); margin-top: -100vh; }
 .globe .snap { height: var(--step); scroll-snap-align: start; }
+/* 從 contact 往上甩時一定先停在最後一張，不會一次滑過好幾張 */
+.globe .snap:last-child { scroll-snap-stop: always; }
 
 .globe #stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
 .globe #globeWrap { position: absolute; inset: 0; pointer-events: none; }
