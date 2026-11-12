@@ -43,6 +43,12 @@
                 ><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap</a> ·
                 <a href="https://carto.com/attributions" target="_blank" rel="noopener">© CARTO</a></small
             >
+            <!-- 地球被舞台底緣切成直線；往 contact 捲時淡到白色（停在最後一張時不顯示） -->
+            <div ref="fade" class="fade" aria-hidden="true" />
+            <nav ref="jump" class="jump" aria-label="區塊導覽">
+                <button type="button" data-to="prev">↑ Top</button>
+                <button type="button" data-to="next">↓ Contact</button>
+            </nav>
         </div>
         <div id="track"><div v-for="p in photos" :key="p.id" class="snap" /></div>
     </section>
@@ -74,12 +80,14 @@ const main = useTemplateRef<HTMLElement>("main");
 const link = useTemplateRef<HTMLElement>("link");
 const strip = useTemplateRef<HTMLElement>("strip");
 const info = useTemplateRef<HTMLElement>("info");
+const fade = useTemplateRef<HTMLElement>("fade");
+const jump = useTemplateRef<HTMLElement>("jump");
 
 useHead({ htmlAttrs: { class: "globe-snap" } }); // 只有首頁：html scroll-snap-type y mandatory
 
 onMounted(() => {
     // 引擎狀態：全是普通變數，只有這個閉包擁有，不是響應式
-    const rootEl = root.value!, globeEl = globe.value!, mainEl = main.value!, linkEl = link.value!, stripEl = strip.value!, infoEl = info.value!;
+    const rootEl = root.value!, globeEl = globe.value!, mainEl = main.value!, linkEl = link.value!, stripEl = strip.value!, infoEl = info.value!, fadeEl = fade.value!, jumpEl = jump.value!;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const N = photos.length;
     const ths = [...stripEl.children] as HTMLElement[];
@@ -148,6 +156,7 @@ onMounted(() => {
         const r = rootEl.getBoundingClientRect();
         const fills = r.top < innerHeight / 2 && r.bottom > innerHeight / 2;
         if (fills !== fillsViewport.value) fillsViewport.value = fills;
+        fadeEl.style.opacity = String(Math.max(0, Math.min(1, (innerHeight - r.bottom) / (0.25 * innerHeight))));
         raf = requestAnimationFrame(frame);
     }
 
@@ -214,6 +223,14 @@ onMounted(() => {
     };
     stripEl.addEventListener("click", onStripClick);
 
+    // 跳到上一個 / 下一個區塊（header、contact）
+    const onJump = (e: Event) => {
+        const to = (e.target as Element).closest<HTMLElement>("button")?.dataset.to;
+        const el = to === "prev" ? rootEl.previousElementSibling : to === "next" ? rootEl.nextElementSibling : null;
+        el?.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+    };
+    jumpEl.addEventListener("click", onJump);
+
     // 入站訊息：source + origin 都驗；READY 冪等（重送完整狀態），所以地圖重載後再來一次也只是重新同步
     const onMessage = (e: MessageEvent) => {
         const msg = parseFromMap(e, globeEl.contentWindow, mapOrigin);
@@ -251,6 +268,7 @@ onMounted(() => {
         removeEventListener("message", onMessage);
         removeEventListener("resize", onResize);
         stripEl.removeEventListener("click", onStripClick);
+        jumpEl.removeEventListener("click", onJump);
         fillsViewport.value = false;
     });
 });
@@ -349,6 +367,13 @@ html.globe-snap { scroll-snap-type: y mandatory; }
 .globe #credit { position: absolute; right: 14px; bottom: 10px; font: 8px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--faint); }
 .globe[data-mode="phone"] #credit { bottom: auto; top: 10px; right: 12px; }
 .globe #credit a { color: inherit; text-decoration: none; }
+.globe .fade { position: absolute; left: 0; right: 0; bottom: 0; height: 25vh; background: linear-gradient(rgba(255, 255, 255, 0), var(--bg)); opacity: 0; pointer-events: none; }
+.globe .jump { position: absolute; right: 24px; top: 16px; display: flex; flex-direction: column; align-items: flex-end; }
+.globe .jump button { min-height: 24px; padding: 0; border: 0; background: none; cursor: pointer; font: 9px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); transition: color .3s; }
+.globe .jump button:hover { color: var(--fg); }
+.globe .jump button:focus-visible { color: var(--fg); outline: 1px solid var(--accent); outline-offset: 3px; }
+/* 平板的右上角是縮圖弧線，手機的右上角是 credit：改放左上，壓在地球上所以加和 info 一樣的光暈 */
+.globe[data-mode="tab"] .jump, .globe[data-mode="phone"] .jump { right: auto; left: 12px; top: 4px; align-items: flex-start; text-shadow: 0 0 2px var(--bg), 0 0 2px var(--bg), 0 0 5px var(--bg); }
 
 @media (prefers-reduced-motion: reduce) { .globe, .globe * { transition: none !important; } }
 </style>
