@@ -1,5 +1,5 @@
 // node --experimental-strip-types scripts/globe-layout.check.mjs
-// golden：原型 index.html (v7, size l / cut 40) 在三種視窗下 layout() 寫出的 CSS 變數、globe 位置與 offset（2026-11-12 於 chrome-devtools 擷取）。
+// golden：定稿 prototype（v7, size l / cut 40，未收進 repo） 在三種視窗下 layout() 寫出的 CSS 變數、globe 位置與 offset（2026-11-12 於 chrome-devtools 擷取）。
 import assert from "node:assert/strict";
 import { cssVars, globeLayout, parsePoint, zoomAt } from "../app/utils/globe.ts";
 

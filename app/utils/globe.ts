@@ -101,7 +101,7 @@ const SIZE_S = 0.36; // 手機：小
 const CUT = 0.4; // 桌機/平板切 2/5
 const PHONE_CUT = 0.25;
 
-/** 與原型 layout()/layoutGlobe() 逐行相同；size l、cut 40 固定。 */
+/** 定稿 prototype 的版面規則；size l、cut 40 固定。數值由 scripts/globe-layout.check.mjs 對照定稿驗證。 */
 export function globeLayout(vw: number, vh: number): Geometry {
     const mode: Mode = vw < 768 || vw < vh * 0.9 ? "phone" : vw < 1280 ? "tab" : "desk";
     const phone = mode === "phone";

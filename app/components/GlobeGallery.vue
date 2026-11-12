@@ -1,9 +1,9 @@
 <!-- 地球相簿：滿版 sticky 舞台 + 一張照片一個捲動 step 的 #track。
      Vue 只負責首幀（SSR + hydration）；mount 之後由下面 onMounted 裡的引擎接手舞台 DOM（spring、滾筒、swapMain/swapText、postMessage）。
      根節點 v-once：這份模板沒有任何響應式內容，Vue 不會 patch 被引擎搬動、播放中的節點。
-     id/class 沿用原型（.verify/evidence/globe-proto/src/v8.html），CSS 逐行移植。 -->
+     id/class 與 CSS 沿用定稿 prototype（v7，未收進 repo）。 -->
 <template>
-    <section ref="root" id="section" class="globe" v-once>
+    <section v-if="first" ref="root" id="section" class="globe" v-once>
         <div id="stage">
             <div id="globeWrap"><iframe ref="globe" id="globe" title="Photo locations globe" tabindex="-1" /></div>
             <div ref="main" id="main" aria-live="polite">
@@ -11,8 +11,8 @@
                 <img :src="first.main" :alt="first.place" fetchpriority="high" />
             </div>
             <div ref="link" id="link" />
-            <div ref="strip" id="strip" role="list" aria-label="照片">
-                <button v-for="(p, i) in photos" :key="p.id" class="th" role="listitem" :data-i="i" :aria-label="`${pad(i)} ${p.place} ${p.date}`">
+            <div ref="strip" id="strip" aria-label="照片">
+                <button v-for="(p, i) in photos" :key="p.id" class="th" :data-i="i" :aria-label="`${pad(i)} ${p.place} ${p.date}`">
                     <span class="meta"
                         ><b>{{ pad(i) }}</b
                         >{{ p.date }}<br />{{ p.place }}</span
@@ -66,7 +66,7 @@ const { data } = await useAsyncData("globe-gallery", async () => {
 });
 // toGlobeData 遇到壞資料會 throw，所以這裡沒有值代表 build 失敗，不是執行期狀態
 const { photos, places } = data.value!;
-const first = photos[0]!;
+const first = photos[0]; // 一張有座標的照片都沒有時，整個區塊不渲染
 const placeOf = Object.fromEntries(places.map(p => [p.id, p]));
 const pad = (i: number) => String(i + 1).padStart(2, "0");
 
@@ -86,6 +86,7 @@ const jump = useTemplateRef<HTMLElement>("jump");
 useHead({ htmlAttrs: { class: "globe-snap" } }); // 只有首頁：html scroll-snap-type y mandatory
 
 onMounted(() => {
+    if (!first) return;
     // 引擎狀態：全是普通變數，只有這個閉包擁有，不是響應式
     const rootEl = root.value!, globeEl = globe.value!, mainEl = main.value!, linkEl = link.value!, stripEl = strip.value!, infoEl = info.value!, fadeEl = fade.value!, jumpEl = jump.value!;
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -248,12 +249,15 @@ onMounted(() => {
     };
     addEventListener("message", onMessage);
 
-    // 版面改變（含手機網址列伸縮）會改 step，active 會跳號；人在區塊內時重新對齊到 active
+    // 只在寬度改變（轉向）時重新對齊：手機網址列伸縮只改高度，交給 scroll-snap 自己重新吸附，避免和慣性捲動打架
+    let lastW = innerWidth;
     const onResize = () => {
         const r = rootEl.getBoundingClientRect();
         const inside = r.top < innerHeight && r.bottom > 0;
+        const widthChanged = innerWidth !== lastW;
+        lastW = innerWidth;
         layout();
-        if (inside && active >= 0) scrollTo({ top: top() + active * g.step, behavior: "instant" });
+        if (widthChanged && inside && active >= 0) scrollTo({ top: top() + active * g.step, behavior: "instant" });
     };
     addEventListener("resize", onResize);
 
@@ -275,7 +279,7 @@ onMounted(() => {
 </script>
 
 <style>
-/* 原型 v8 的 CSS 逐行移植：選擇器加 .globe 前綴，:root token 改掛 .globe，#switcher 刪除。 */
+/* 定稿 prototype 的 CSS：選擇器加 .globe 前綴，:root token 改掛 .globe。 */
 html.globe-snap { scroll-snap-type: y mandatory; }
 .globe {
     --bg: #fff; --fg: #1d1d1f; --muted: #8d8d90; --faint: #b9b9bb; --line: rgba(29,29,31,.16); --accent: #e8590c;
