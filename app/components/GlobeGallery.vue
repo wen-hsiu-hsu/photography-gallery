@@ -368,12 +368,16 @@ html.globe-snap { scroll-snap-type: y mandatory; }
 .globe[data-mode="phone"] #credit { bottom: auto; top: 10px; right: 12px; }
 .globe #credit a { color: inherit; text-decoration: none; }
 .globe .fade { position: absolute; left: 0; right: 0; bottom: 0; height: 25vh; background: linear-gradient(rgba(255, 255, 255, 0), var(--bg)); opacity: 0; pointer-events: none; }
-.globe .jump { position: absolute; right: 24px; top: 16px; display: flex; flex-direction: column; align-items: flex-end; }
-.globe .jump button { min-height: 24px; padding: 0; border: 0; background: none; cursor: pointer; font: 9px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); transition: color .3s; }
+/* 縮圖在右側時（桌機、平板）放在畫面正上、正下；手機縮圖在底部，改疊在左上 */
+.globe .jump button { position: absolute; left: 50%; transform: translateX(-50%); min-height: 32px; padding: 0 8px; border: 0; background: none; cursor: pointer; white-space: nowrap;
+    font: 11px/1.6 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #6f6f73; text-shadow: 0 0 2px var(--bg), 0 0 2px var(--bg), 0 0 5px var(--bg); transition: color .3s; }
+.globe .jump [data-to="prev"] { top: 12px; }
+.globe .jump [data-to="next"] { bottom: 12px; }
 .globe .jump button:hover { color: var(--fg); }
 .globe .jump button:focus-visible { color: var(--fg); outline: 1px solid var(--accent); outline-offset: 3px; }
-/* 平板的右上角是縮圖弧線，手機的右上角是 credit：改放左上，壓在地球上所以加和 info 一樣的光暈 */
-.globe[data-mode="tab"] .jump, .globe[data-mode="phone"] .jump { right: auto; left: 12px; top: 4px; align-items: flex-start; text-shadow: 0 0 2px var(--bg), 0 0 2px var(--bg), 0 0 5px var(--bg); }
+.globe[data-mode="phone"] .jump button { left: 4px; transform: none; }
+.globe[data-mode="phone"] .jump [data-to="prev"] { top: 2px; }
+.globe[data-mode="phone"] .jump [data-to="next"] { top: 34px; bottom: auto; }
 
 @media (prefers-reduced-motion: reduce) { .globe, .globe * { transition: none !important; } }
 </style>

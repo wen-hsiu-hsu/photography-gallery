@@ -4,7 +4,6 @@
 
         <div>
             <slot />
-            <AppFooter />
         </div>
 
         <AppLinkBubble />
